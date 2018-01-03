@@ -1,0 +1,278 @@
+
+" Automatic reloading of .vimrc
+autocmd! bufwritepost .vimrc source %
+
+
+" Better copy & paste
+" When you want to paste large blocks of code into vim, press F2 before you
+" paste. At the bottom you should see ``-- INSERT (paste) --``.
+" set pastetoggle=<F2>
+" to cut, copy, and/or paste to/from other applications outside of VIM
+" set clipboard=unnamed
+
+" Mouse and backspace
+" set mouse=a  " on OSX press ALT and click
+" set bs=2     " make backspace behave like normal again
+
+
+" Rebind <Leader> key
+" I like to have it here becuase it is easier to reach than the default and
+" it is next to ``m`` and ``n`` which I use for navigating between tabs.
+let mapleader = ","
+
+"the following will help vim beginners to use hjkl keys rather than up and
+"down arrows 
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+
+" Bind nohl
+" Removes highlight of your last search
+" ``<C>`` stands for ``CTRL`` and therefore ``<C-n>`` stands for ``CTRL+n``
+noremap <C-n> :nohl<CR>
+vnoremap <C-n> :nohl<CR>
+inoremap <C-n> :nohl<CR>
+
+" Quicksave command
+noremap <C-Z> :update<CR>
+vnoremap <C-Z> <C-C>:update<CR>
+inoremap <C-Z> <C-O>:update<CR>
+
+
+" Quick quit command
+noremap <Leader>e :quit<CR>  " Quit current window
+noremap <Leader>E :qa!<CR>   " Quit all windows 
+
+" bind Ctrl+<movement> keys to move around the windows, instead of using Ctrl+w + <movement>
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+
+" easier moving between tabs
+map <Leader>n <esc>:tabprevious<CR>
+map <Leader>m <esc>:tabnext<CR>
+
+
+" map sort function to a key
+vnoremap <Leader>s :sort<CR>
+
+
+" easier moving of code blocks
+" Try to go into visual mode (v), thenselect several lines of code here and
+" then press ``>`` several times.
+vnoremap < <gv  " better indentation
+vnoremap > >gv  " better indentation
+
+
+" Show whitespace
+" MUST be inserted BEFORE the colorscheme command
+" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+" au InsertLeave * match ExtraWhitespace /\s\+$/
+
+set background=dark
+
+" Color scheme
+" mkdir -p ~/.vim/colors && cd ~/.vim/colors
+" wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
+" set t_Co=256
+" color wombat256mod "got to try to try other color models in here 
+
+" color atom-dark-256
+" color jellybeans
+" color gruvbox
+" color molokai
+" color monokai
+
+" configuration options if using 'molokai' color theme
+" let g:molokai_original = 1
+" let g:rehash256 = 1
+
+
+" Enable syntax highlighting
+" You need to reload this file for the change to apply
+filetype off
+"filetype plugin indent on
+syntax on
+
+
+" Showing line numbers and length
+set number  " show line numbers
+set tw=100   " width of document (used by gd)
+set nowrap  " don't automatically wrap on load
+set fo-=t   " don't automatically wrap text when typing
+"set colorcolumn=100
+"highlight ColorColumn ctermbg=100
+
+" easier formatting of paragraphs
+vmap Q gq
+nmap Q gqap
+
+" Useful settings
+set history=700
+set undolevels=700
+
+" Real programmers don't use TABs but spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+" Make search case insensitive
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+" Disable stupid backup and swap files - they trigger too many events
+" for file system watchers
+set nobackup
+set nowritebackup
+set noswapfile
+
+
+
+" ============================================================================
+" Python IDE Setup
+" ============================================================================
+
+" Python folding
+" mkdir -p ~/.vim/ftplugin
+" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
+set nofoldenable " use 'f' below func definition line to fold/unfold the function
+                 " can use 'F' (shift+f) to fold/unfold all functions in the file  
+
+" -------------------------------------------------------------------------
+" using Vundle to manage extensions 
+" -------------------------------------------------------------------------
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+"" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+"git interface
+Plugin 'tpope/vim-fugitive'
+
+"filesystem
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'
+
+"" for auto-complete 
+"Bundle 'Valloric/YouCompleteMe'
+"Plugin 'klen/rope-vim'
+"Plugin 'ervandew/supertab'
+Plugin 'davidhalter/jedi-vim' 
+
+"" supertab 
+Plugin 'ervandew/supertab'
+
+" python sytax checker
+Plugin 'nvie/vim-flake8'
+Plugin 'vim-scripts/Pydiction'
+Plugin 'scrooloose/syntastic'
+
+" color schemes 
+Plugin 'jnurmine/Zenburn' "for temrinal mode 
+"" Plugin 'altercation/vim-colors-solarized' "for GUI mode
+
+" gives information about Powerline is a status bar git branch, files being edited, and much more.
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" All of your Plugins must be added before the following line
+call vundle#end()   " required
+
+" -------------- plugin configurations start ------------------------------------
+let g:SimpylFold_docstring_preview = 1
+
+"autocomplete ==> currently not working on my machine so using jedi-vim  
+"let g:ycm_server_python_interpreter = '/home/rocky/anaconda3/bin/python'
+"let g:ycm_autoclose_preview_window_after_completion=1
+"map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" settings for jedi-vim
+let g:jedi#usages_command = "<leader>z"
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#use_tabs_not_buffers = 1
+
+map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+
+" Better navigating through omnicomplete option list
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+"" 
+set completeopt=longest,menuone
+function! OmniPopup(action)
+     if pumvisible()
+         if a:action == 'j'
+             return "\<C-N>"
+         elseif a:action == 'k'
+             return "\<C-P>"
+         endif
+     endif
+     return a:action
+endfunction
+
+" ctrlp plugin options. Ignores the .pyc files, _build, coverage dirs 
+let g:ctrlp_max_height = 30
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+
+"let NERDTreeIgnore=['\.pyc$', 'i\~$'] "ignore files in NERDTree
+
+" -------------- plugin configurations end  -------------------------------------
+
+
+"------------Start Python PEP 8 stuff----------------
+"" Number of spaces that a pre-existing tab is equal to.
+" au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+
+"spaces for indents
+"au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+"au BufRead,BufNewFile *.py,*.pyw set expandtab
+"au BufRead,BufNewFile *.py set softtabstop=4
+
+
+" Use the below highlight group when displaying bad whitespace is desired.
+" highlight BadWhitespace ctermbg=red guibg=red
+
+" Display tabs at the beginning of a line in Python mode as bad.
+" au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+
+" Make trailing whitespace be flagged as bad.
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/          
+
+" Wrap text after a certain number of characters
+" au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+
+" Use UNIX (\n) line endings.
+" au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+" Set the default file encoding to UTF-8:
+" set encoding=utf-8
+
+" For full syntax highlighting:
+" let python_highlight_all=1
+" syntax on
+
+" Keep indentation level from previous line:
+" autocmd FileType python set autoindent
+
+" make backspaces more powerfull
+" set backspace=indent,eol,start
+
+"----------Stop python PEP 8 stuff--------------
+
+
+
