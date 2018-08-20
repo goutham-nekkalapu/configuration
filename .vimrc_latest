@@ -1,0 +1,126 @@
+
+set nocompatible              " required
+filetype off                  " required
+set encoding=utf-8            " to support utf-8 encoding
+"set nu                        " to set numbers on side of screen
+set clipboard=unnamed         " to access system's clipboard
+set laststatus=2              " to be able to see the status, should be set to use 'powerline' plugin
+set showcmd                   " to show commands available in VIM; to use cmds start typing ':'
+
+"to search in a file 
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+
+
+"custom settings start here
+
+"mapping sapcebar as leader key
+let mapleader = " "
+
+"cursor's location is moved to created window
+set splitbelow
+set splitright
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+"Enable code folding
+set foldmethod=indent
+set foldlevel=99
+
+"Enable folding with the spacebar instead of typing 'za' every time
+nnoremap <space> za
+
+"to see the docstrings for folded code
+let g:SimpylFold_docstring_preview=1
+
+
+"to follow PEP-8 indentation
+au BufNewFile,BufRead *.py
+    \ set tabstop=4      |
+    \ set softtabstop=4  |
+    \ set shiftwidth=4   |
+    \ set textwidth=79   |
+    \ set expandtab      |
+    \ set autoindent     |
+    \ set fileformat=unix|
+
+"indentation rules for another file types
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2      |
+    \ set softtabstop=2  |
+    \ set shiftwidth=2   | 
+
+
+"flagging unnecessary whitespace
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"autocomplete plugin customizations
+"1st line ensures auto-complete window disapperas afer usage 
+"2nd line maps 'leader-key'-'g' opens definition
+let g:ycm_autoclose_preview_window_after_completion=1  
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>  
+
+"to make python code pretty
+let python_highlight_all=1
+syntax on
+
+"to hide '*.pyc' files in nerdtree
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+
+
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+
+"let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+"creates folds in code correctly (helps the default foldmethod=indent)
+Plugin 'tmhedberg/SimpylFold'
+
+"to have better auto-indentation
+Plugin 'vim-scripts/indentpython.vim'
+
+"for auto-complete
+Bundle 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
+
+"syntax highlighting 
+Plugin 'vim-syntastic/syntastic'
+
+"PEP-8 standard checking 
+Plugin 'nvie/vim-flake8'
+
+"for file browsing 
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+
+"to search anything in VIM using 'ctrlP' plugin
+"to start searching press 'ctrl+P' and enter words to search 
+Plugin 'kien/ctrlp.vim'
+
+"to perform basic git commands from VIM
+Plugin 'tpope/vim-fugitive'
+
+"status bar for virtualenv, gitbranches, files being edited etc 
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" add all your plugins here (note older versions of Vundle
+" used Bundle instead of Plugin)
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
