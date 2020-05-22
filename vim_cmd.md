@@ -13,6 +13,7 @@ $    : move to the end of the sentence
 10j  : jump forward 10 lines 
 10K  : jump backward 10 lines 
 G    : jump to the start of the line 
+gg   : go to the start of the file 
 ```
 
 ### Spell checking in VIM 
@@ -74,3 +75,47 @@ In normal mode, go to the beginning of the section that you want to yank.
 - type 'gg=G'
 
 
+### Reformating already written documents
+Lets say there are some documents already written, and we want to 
+reformat them using current 'vimrc' settings
+like text wrapping etc; we can use the following commands for the same 
+
+``` 
+1. gw or gq 
+2. gqG : to reformat the entire file 
+```
+
+### Vimrc settings for wrapping text 
+- If your goal, while typing in insert mode, is to automatically 
+soft-wrap text (only visually) at the edge of the window
+
+```
+set number # (optional - will help to visually verify that it's working)
+set textwidth=0
+set wrapmargin=0
+set wrap
+set linebreak # (optional - breaks by word rather than character)
+```
+
+- If your goal, while typing insert mode, is to automatically hard-wrap
+text (by inserting a new line into the actual text file) at 80 columns:
+
+```
+set number # (optional - will help to visually verify that it's working)
+set textwidth=80
+set wrapmargin=0
+set formatoptions+=t
+set linebreak # (optional - breaks by word rather than character)
+```
+
+- If your goal, while typing in insert mode, is to automatically 
+soft-wrap text (only visually) at 80 columns:
+
+```
+set number # (optional - will help to visually verify that it's working)
+set textwidth=0
+set wrapmargin=0
+set wrap
+set linebreak # (optional - breaks by word rather than character)
+set columns=80 # <<< THIS IS THE IMPORTANT PART
+```

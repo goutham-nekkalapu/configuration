@@ -1,3 +1,2 @@
 
-### About:
-My dot files
+config files and useful cmds for utilities 
